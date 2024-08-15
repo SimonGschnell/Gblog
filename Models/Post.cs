@@ -9,9 +9,9 @@ public class Post{
     public int ID{get; set;}
     
     [DataType(DataType.Date)]
-    [Display(Name = "Date")]
+    [DisplayName("Date")]
     [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString ="{0:dd/MM/yyyy}")]
-    public DateTime InsertDate{get; set;} = DateTime.Now;
+    public DateTime? InsertDate{get; set;}
 
     [StringLength(100,MinimumLength = 3, ErrorMessage = "The {0} can not exceed {1} or be less than {2} characters")]
     [Required]
