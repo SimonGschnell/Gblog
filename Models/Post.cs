@@ -10,7 +10,7 @@ public class Post{
     
     [DataType(DataType.Date)]
     [DisplayName("Date")]
-    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString ="{0:dd/MM/yyyy}")]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString ="{0:dd-MM-yyyy}")]
     public DateTime? InsertDate{get; set;}
 
     [StringLength(100,MinimumLength = 3, ErrorMessage = "The {0} can not exceed {1} or be less than {2} characters")]
@@ -21,5 +21,8 @@ public class Post{
     [Required]
     [DataType(DataType.MultilineText)]
     public string? Content{get; set;}
+
+    [MinLength(4)]
+    public string? Image { get; set; }
 
 }

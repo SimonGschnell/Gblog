@@ -1,4 +1,4 @@
-﻿@model Post
+﻿@model CreatePostVM
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -8,21 +8,26 @@
 
 <h2>Create Post:</h2>
 
-<form asp-controller="Post" asp-action="Create" method="post">
+<form asp-controller="Post" asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="mb-3 ">
-        <label asp-for="InsertDate" class="form-label" ></label>
-        <input asp-for="InsertDate" class="form-control"/>
-        <span asp-validation-for="InsertDate" class="text-danger"></span>
+        <label asp-for="Post.InsertDate" class="form-label" ></label>
+        <input asp-for="Post.InsertDate" class="form-control" />
+        <span asp-validation-for="Post.InsertDate" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="Title" class="form-label" ></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
+        <label asp-for="Post.Title" class="form-label"></label>
+        <input asp-for="Post.Title" class="form-control" />
+        <span asp-validation-for="Post.Title" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="Content" class="form-label" ></label>
-        <textarea asp-for="Content" class="form-control" ></textarea>
-        <span asp-validation-for="Content" class="text-danger"></span>
+        <label asp-for="Post.Content" class="form-label"></label>
+        <textarea asp-for="Post.Content" class="form-control"></textarea>
+        <span asp-validation-for="Post.Content" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Image" class="form-label"></label>
+        <input asp-for="Image" class="form-control" />
+        <span asp-validation-for="Image" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
 </form>

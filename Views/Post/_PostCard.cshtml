@@ -1,6 +1,8 @@
 ﻿@model Post
 @{
 }
+
+@*
 <div class="card text-center">
     <div class="card-header">
         @Html.DisplayFor(_ => Model.Title)
@@ -14,5 +16,13 @@
     </div>
     <div class="card-footer text-body-secondary">
         @Html.DisplayFor(_ => Model.InsertDate)
+    </div>
+</div>
+*@
+<div class="postcard">
+    <img src="@(Model.Image != null? Url.Content($"~/images/post_images/{Model.Image}"): Url.Content("~/images/post_images/test_image.png"))" class="card__image" alt="Post Image" />
+    <div class="card__content">
+        <time datetime="@Html.DisplayFor(_ => Model.InsertDate)" class="card__date">@Html.DisplayFor(_ => Model.InsertDate)</time>
+        <span class="card__title">@Html.DisplayFor(_ => Model.Title)<span>
     </div>
 </div>

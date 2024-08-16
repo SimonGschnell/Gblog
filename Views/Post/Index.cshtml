@@ -3,11 +3,15 @@
     ViewData["Title"] = "Posts";
 }
 
+@section css {
+    <link rel="stylesheet" type="text/css" href="~/css/PageCard.css" />
+}
+
 <a asp-action="Create" >Create Post</a>
 <h2> Posts: </h2>
 
 
-<div class="d-flex flex-column">
+<div class="row">
     @if (!Model.Any())
     {
         <p>Currently there are no Posts available ..</p>
@@ -16,10 +20,14 @@
     {
         foreach (var post in Model)
         {
-            var DetailsAction = Url.Action("Detail", new { id = post.ID });
-            <a href="@DetailsAction" class="text-decoration-none text-reset">
-                @{Html.RenderPartial("_PostCard", post);}
-            </a>
+            <div class="col-lg-6">
+                @{
+                    var DetailsAction = Url.Action("Detail", new { id = post.ID });
+                }
+                <a href="@DetailsAction" class="text-decoration-none text-reset">
+                    @{Html.RenderPartial("_PostCard", post);}
+                </a>
+            </div>
         }
     }
     

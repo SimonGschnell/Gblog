@@ -3,15 +3,19 @@ using Gblog.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Markdig;
+using Gblog.ViewModels.PostViewModels;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Gblog.Controllers
 {
     public class PostController : Controller
     {
         private readonly PostContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public PostController(PostContext context) {
+        public PostController(PostContext context, IWebHostEnvironment webHostEnvironment) {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         async public Task<IActionResult> Index()
@@ -21,27 +25,50 @@ namespace Gblog.Controllers
             return View(markdown_posts);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
-            var empty_post = new Post();
-            return View(empty_post);
+            var data = new CreatePostVM { Post = new Post(), Image = null };
+            return View(data);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        async public Task<IActionResult> Create([Bind("InsertDate,Title,Content")] Post post)
+        async public Task<IActionResult> Create(CreatePostVM data)
         {
             if (ModelState.IsValid) 
             {
-                if(post.InsertDate == null)
+                if(data.Post.InsertDate == null)
                 {
-                    post.InsertDate = DateTime.Now;
+                    data.Post.InsertDate = DateTime.Now;
                 }
-                _context.Add(post);
+                // save image in wwwroot and save fileName in db
+                if (data.Image != null && data.Image.Length > 0)
+                {
+                    var filename = Path.GetFileName(data.Image.FileName);
+                    data.Post.Image = filename;
+                    var folder_path = Path.Combine(_webHostEnvironment.WebRootPath, "images/post_images");
+                    var file_path = Path.Combine(folder_path, filename);
+                    // return View with validation error if the filename already exists
+                    if (System.IO.File.Exists(file_path))
+                    {
+                        ModelState.AddModelError("Image", "The Filename already exists. Please rename the file!");
+                        return View(data);
+                    }
+                    else 
+                    { 
+                        using (Stream file = new FileStream(file_path, FileMode.Create))
+                        {
+                            await data.Image.CopyToAsync(file);
+                        }
+                    }
+                    
+                }
+                _context.Add(data.Post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(post);
+            return View(data);
         }
 
         [HttpPost]
