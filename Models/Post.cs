@@ -19,6 +19,7 @@ public class Post{
     
     [MinLength(5)]
     [Required]
+    [DataType(DataType.MultilineText)]
     public string? Content{get; set;}
 
 }

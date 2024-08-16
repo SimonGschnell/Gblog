@@ -1,7 +1,4 @@
 ﻿@model IEnumerable<Post>
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
     ViewData["Title"] = "Posts";
 }
@@ -11,29 +8,19 @@
 
 
 <div class="d-flex flex-column">
-    @if (Model.Count() == 0)
+    @if (!Model.Any())
     {
         <p>Currently there are no Posts available ..</p>
     }
-    @foreach(var post in Model)
+    else
     {
-        <div class="card text-center">
-            <div class="card-header">
-                @Html.DisplayFor(_ => post.Title)
-                <form asp-action="Delete" method="post" onsubmit="return confirm('Are you sure you want to delete @post.Title')">
-                    <input type="hidden" name="id" value="@post.ID" />
-                    <button type="submit"><i class="fa-solid fa-trash"></i></button>
-                </form>
-            
-            </div>
-            <div class="card-body">
-                <p>@Html.Raw(post.Content)</p>
-            </div>
-            <div class="card-footer text-body-secondary">
-                @Html.DisplayFor(_ => post.InsertDate)
-            </div>
-        </div>
+        foreach (var post in Model)
+        {
+            var DetailsAction = Url.Action("Detail", new { id = post.ID });
+            <a href="@DetailsAction" class="text-decoration-none text-reset">
+                @{Html.RenderPartial("_PostCard", post);}
+            </a>
+        }
     }
+    
 </div>
-
-

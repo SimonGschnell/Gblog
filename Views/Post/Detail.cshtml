@@ -1,0 +1,12 @@
+﻿@model Post
+@{
+	ViewData["Title"] = Model.Title;
+}
+
+<h1>@Html.DisplayFor(model => model.Title)</h1>
+
+<div>
+	@Html.Raw(Model.Content)
+</div>
+
+<a asp-action="Index" >Back</a>

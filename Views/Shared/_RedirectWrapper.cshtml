@@ -1,0 +1,10 @@
+﻿@model _RedirectWrapper
+@{
+	var action = Url.Action(Model.Action, Model.Controller, new { id = Model.ID });
+}
+<a href="@action" class="text-decoration-none text-reset">
+	@if (Model.Content != null)
+	{
+		Html.Raw(Model.Content);
+	}
+</a>

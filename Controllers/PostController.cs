@@ -58,5 +58,19 @@ namespace Gblog.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        async public Task<IActionResult> Detail(int id)
+        {
+
+            var post = await _context.Post.FirstOrDefaultAsync(post => post.ID == id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            post.Content = Markdown.ToHtml(post.Content!);
+
+            return View(post);
+        }
     }
 }

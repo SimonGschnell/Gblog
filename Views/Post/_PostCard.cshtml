@@ -1,0 +1,18 @@
+﻿@model Post
+@{
+}
+<div class="card text-center">
+    <div class="card-header">
+        @Html.DisplayFor(_ => Model.Title)
+        @{
+            Html.RenderPartial("_DeleteButton", new _DeleteButton() { ID = Model.ID, Message = Model.Title });
+        }
+
+    </div>
+    <div class="card-body">
+        <p>@Html.Raw(Model.Content)</p>
+    </div>
+    <div class="card-footer text-body-secondary">
+        @Html.DisplayFor(_ => Model.InsertDate)
+    </div>
+</div>
