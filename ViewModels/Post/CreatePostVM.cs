@@ -1,5 +1,6 @@
 ﻿using Gblog.Models;
 using System.ComponentModel.DataAnnotations;
+using Gblog.Annotations;
 
 namespace Gblog.ViewModels.PostViewModels;
 
@@ -9,6 +10,6 @@ public class CreatePostVM
     public Post Post { get; set; }
 
     [DataType(DataType.Upload)]
-   // [FileExtensions(Extensions = "jpg,gif,png", ErrorMessage = "Error")]
+    [CustomFileExtension("png,jpg,jpeg,gif", ErrorMessage ="The Image extension must be one of the following (.png|.jpg|.jpeg|.gif)")]
     public IFormFile? Image { get; set; }
 }

@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Markdig;
 using Gblog.ViewModels.PostViewModels;
 using Microsoft.AspNetCore.Hosting;
+using System.Reflection;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Gblog.Controllers
 {
@@ -71,7 +73,34 @@ namespace Gblog.Controllers
             return View(data);
         }
 
-        [HttpPost]
+        [HttpGet]
+        async public Task<IActionResult> Edit(int id)
+        {
+            var data = await _context.Post.FirstOrDefaultAsync(post => post.ID == id);
+            return View(data);
+        }
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		async public Task<IActionResult> Edit(int id, [Bind("Title,Content")]Post post)
+		{
+            var edit_post = await _context.Post.FirstOrDefaultAsync(post => post.ID == id);
+
+            if (edit_post == null) {
+                return NotFound();
+            }
+            
+            if (ModelState.IsValid) {
+                edit_post.Title = post.Title;
+				edit_post.Content = post.Content;
+				_context.Post.Update(edit_post);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(post);
+		}
+
+		[HttpPost]
         [ValidateAntiForgeryToken]
         async public Task<IActionResult> Delete(int id)
         {

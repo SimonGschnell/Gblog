@@ -24,5 +24,8 @@
     <div class="card__content">
         <time datetime="@Html.DisplayFor(_ => Model.InsertDate)" class="card__date">@Html.DisplayFor(_ => Model.InsertDate)</time>
         <span class="card__title">@Html.DisplayFor(_ => Model.Title)<span>
+        @{
+            Html.RenderPartial("_DeleteButton", new _DeleteButton() { ID = Model.ID, Message = Model.Title });
+        }
     </div>
 </div>
